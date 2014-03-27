@@ -23,7 +23,7 @@ class Qpdf
   end
 
   def unlock(source_file, unlocked_file)
-    command = "#{@exe_path} #{source_file} #{unlocked_file}"
+    command = "#{@exe_path} --decrypt #{source_file} #{unlocked_file}"
     err = Open3.popen3(command) do |stdin, stdout, stderr|
       stderr.read
     end
