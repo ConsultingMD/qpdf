@@ -31,6 +31,15 @@ class Qpdf
     raise "Failed to execute:\n#{command}\nError: #{e}"
   end
 
+  def lock(source_file, locked_file, user_password, owner_password, key_length = 40)
+    command = "#{@exe_path} --encrypt #{user_password} #{owner_password} #{key_length} -- #{source_file} #{locked_file}"
+    err = Open3.popen3(command) do |stdin, stdout, stderr|
+      stderr.read
+    end
+  rescue Exception => e
+    raise "Failed to execute:\n#{command}\nError: #{e}"
+  end
+
   private
 
     def find_binary_path
