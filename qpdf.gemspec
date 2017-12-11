@@ -8,7 +8,7 @@ Gem::Specification.new do |g|
   g.authors = ['Ken Berland', 'Justin Ahn', 'Brett Suwyn']
   g.email = 'brett@grnds.com'
   g.homepage = 'https://github.com/ConsultingMD/qpdf.git'
-  g.files = %w(README.md)
+  g.files = %w(README.md LICENSE)
   g.files += Dir.glob("{lib,generators}/**/*")
   g.require_paths = ['lib']
   g.add_dependency('rails')
