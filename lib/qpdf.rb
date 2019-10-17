@@ -22,8 +22,8 @@ class Qpdf
     raise "#{EXE_NAME} is not executable" unless File.executable?(@exe_path)
   end
 
-  def unlock(source_file, unlocked_file)
-    command = "#{@exe_path} --decrypt #{source_file} #{unlocked_file}"
+  def unlock(source_file, unlocked_file, password = nil)
+    command = "#{@exe_path} --decrypt --password='#{password}' #{source_file} #{unlocked_file}"
     err = Open3.popen3(command) do |stdin, stdout, stderr|
       stderr.read
     end
