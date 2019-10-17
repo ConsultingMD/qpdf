@@ -1,7 +1,7 @@
 Gem::Specification.new do |g|
   g.name = 'qpdf'
-  g.version = '0.0.2'
-  g.date = '2017-12-11'
+  g.version = '0.0.3'
+  g.date = '2019-10-14'
   g.summary = 'Qpdf library for Rails'
   g.description = 'Qpdf is used for unlocking locked pdf files'
   g.license = 'MIT'
