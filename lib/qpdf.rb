@@ -23,7 +23,7 @@ class Qpdf
   end
 
   def unlock(source_file, unlocked_file, password = nil)
-    command = "#{@exe_path} --decrypt --password='#{password}' #{source_file} #{unlocked_file}"
+    command = "#{@exe_path} --decrypt --password='#{password}' '#{source_file}' '#{unlocked_file}'"
     err = Open3.popen3(command) do |stdin, stdout, stderr|
       stderr.read
     end
@@ -32,7 +32,7 @@ class Qpdf
   end
 
   def lock(source_file, locked_file, user_password, owner_password, key_length = 40)
-    command = "#{@exe_path} --encrypt #{user_password} #{owner_password} #{key_length} -- #{source_file} #{locked_file}"
+    command = "#{@exe_path} --encrypt #{user_password} #{owner_password} #{key_length} -- '#{source_file}' '#{locked_file}'"
     err = Open3.popen3(command) do |stdin, stdout, stderr|
       stderr.read
     end
