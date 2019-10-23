@@ -18,7 +18,7 @@ class Qpdf
   def initialize(execute_path = nil)
     @exe_path = execute_path || find_binary_path
     raise "Location of #{EXE_NAME} unknown" if @exe_path.empty?
-    raise "Bad location of #{EXE_NAME}'s path" unless File.exists?(@exe_path)
+    raise "Bad location of #{EXE_NAME}'s path" unless File.exist?(@exe_path)
     raise "#{EXE_NAME} is not executable" unless File.executable?(@exe_path)
   end
 
