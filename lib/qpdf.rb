@@ -34,6 +34,13 @@ class Qpdf
     raise "Error: #{error_str}" unless status.success?
   end
 
+  def num_pages(source_file)
+    command = "#{@exe_path} --show-npages '#{source_file}'"
+    output_str, error_str, status = Open3.capture3(command)
+    raise "Error: #{error_str}" unless status.success?
+    output_str.to_i
+  end
+
   private
 
   def find_binary_path
