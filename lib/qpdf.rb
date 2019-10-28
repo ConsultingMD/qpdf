@@ -34,6 +34,42 @@ class Qpdf
     raise "Error: #{error_str}" unless status.success?
   end
 
+  #  Write each page to a separate output file. Output file names are generated as follows:
+  #  - If the string %d appears in the output file name, it is replaced with a range of zero-padded page numbers starting from 1.
+  #  - Otherwise, if the output file name ends in .pdf (case insensitive), a zero-padded page range, preceded by a dash, is inserted before the file extension.
+  #  - Otherwise, the file name is appended with a zero-padded page range preceded by a dash.
+  # @param [String] source_file path of source pdf
+  # @param [String] dest_filename output file name (see above)
+  # @return [Array] list of filenames for generated output files
+  def split_pages(source_file, dest_filename)
+    dest_filename_before = ''
+    dest_filename_after = ''
+    if dest_filename.include? '%d'
+      dest_filename_parts = dest_filename.split('%d')
+      dest_filename_before = dest_filename_parts.first
+      dest_filename_after = dest_filename_parts.last
+    elsif dest_filename.downcase.end_with '.pdf'
+      dest_filename_parts = dest_filename.rpartition('.')
+      dest_filename_before = "#{dest_filename_parts.first}-"
+      dest_filename_after = '.pdf'
+    else
+      dest_filename_before = "#{dest_filename}-"
+    end
+
+    command = "#{@exe_path} --split-pages '#{source_file}' '#{dest_filename}'"
+    num_pages = num_pages source_file
+    num_pages_digits = num_pages.to_s.length
+
+    dest_files = (1..num_pages).map do |page_no|
+      page_no_str = page_no.to_s.rjust(num_pages_digits, '0')
+      "#{dest_filename_before}#{page_no_str}#{dest_filename_after}"
+    end
+
+    _, error_str, status = Open3.capture3(command)
+    raise "Error: #{error_str}" unless status.success?
+    dest_files
+  end
+
   def num_pages(source_file)
     command = "#{@exe_path} --show-npages '#{source_file}'"
     output_str, error_str, status = Open3.capture3(command)
